@@ -10,7 +10,7 @@ header { background-color: #1a73e8; color: white; padding: 20px 0; text-align: c
 nav { display: flex; justify-content: center; gap: 30px; margin-bottom: 10px; flex-wrap: wrap; }
 nav a { color: white; text-decoration: none; font-weight: bold; }
 nav a:hover { text-decoration: underline; }
-.banner { background-image: url('https://ibb.co/r2HhfVjK'); background-size: cover; background-position: center; height: 400px; display: flex; justify-content: center; align-items: center; color: white; font-size: 2em; text-shadow: 2px 2px 5px rgba(0,0,0,0.7); text-align: center; padding: 20px; }
+.banner { background-image: url('https://ibb.co/r2HhfVjK'); background-size: cover; background-position: center; height: 100vh; display: flex; justify-content: center; align-items: center; color: white; font-size: 2em; text-shadow: 2px 2px 5px rgba(0,0,0,0.7); text-align: center; padding: 20px; }
 .container { max-width: 1200px; margin: 20px auto; padding: 0 20px; }
 h2 { text-align: center; margin-bottom: 20px; }
 .auto-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
@@ -220,6 +220,7 @@ window.onload = function() {
 
 </body>
 </html>
+
 
 
 
