@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fdauto2025 - Vendita Auto</title>
+
+<style>
+body { font-family: Arial, sans-serif; margin: 0; padding: 0; color: #333; background-color: #fafafa; }
+header { background-color: #1a73e8; color: white; padding: 20px 0; text-align: center; }
+nav { display: flex; justify-content: center; gap: 30px; margin-bottom: 10px; flex-wrap: wrap; }
+nav a { color: white; text-decoration: none; font-weight: bold; }
+nav a:hover { text-decoration: underline; }
+
+/* ⭐ BANNER CON LOGO + OVERLAY SCURO */
+.banner {
+    position: relative;
+    background-image: url('https://i.ibb.co/PGgyzdLs/Immagine-Whats-App-2025-11-13-ore-18-27-18-52caec1e.jpg');
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 2.5em;
+    text-align: center;
+    padding: 20px;
+}
+
+/* ⭐ Overlay scuro sopra l’immagine (per leggibilità) */
+.banner::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.45);
+}
+
+/* ⭐ Il testo sta sopra all’overlay */
+.banner h1 {
+    position: relative;
+    z-index: 2;
+    text-shadow: 2px 2px 6px rgba(0,0,0,0.8);
+}
+
+.container { max-width: 1200px; margin: 20px auto; padding: 0 20px; }
+h2 { text-align: center; margin-bottom: 20px; }
+.auto-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
+.auto-card { border: 1px solid #ddd; border-radius: 8px; overflow: hidden; padding: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); background-color: white; transition: transform 0.2s ease, box-shadow 0.2s ease; }
+.auto-card:hover { transform: scale(1.02); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+.auto-card img { width: 100%; height: auto; max-height: 180px; object-fit: cover; border-radius: 6px; }
+.auto-card .info { padding: 10px; }
+.auto-card .info h3 { margin: 0 0 10px; }
+button { cursor: pointer; border-radius: 5px; border: none; padding: 8px 12px; margin-top: 5px; }
+button.edit { background-color: #f0ad4e; color: white; }
+button.delete { background-color: #d9534f; color: white; }
+button:hover { opacity: 0.9; transform: scale(1.02); transition: 0.2s; }
+form { display: flex; flex-direction: column; gap: 10px; max-width: 500px; margin: 0 auto; }
+form input, form textarea { padding: 10px; border-radius: 5px; border: 1px solid #ccc; width: 100%; }
+form button { background-color: #1a73e8; color: white; border: none; padding: 10px; cursor: pointer; border-radius: 5px; }
+form button:hover { background-color: #155ab6; }
+footer { background-color: #f1f1f1; padding: 20px 0; text-align: center; margin-top: 40px; }
+.admin-panel { background-color: #f9f9f9; padding: 20px; margin: 20px 0; border-radius: 8px; }
+.search-box { text-align: center; margin-bottom: 20px; }
+.search-box input { width: 80%; max-width: 400px; padding: 10px; border-radius: 8px; border: 1px solid #bbb; font-size: 1em; }
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>FDauto2025</h1>
+    <nav>
+        <a href="#home">Home</a>
+        <a href="#auto">Auto in vendita</a>
+        <a href="#chi-siamo">Chi siamo</a>
+        <a href="#contatti">Contatti</a>
+        <a href="#admin">Admin</a>
+    </nav>
+</header>
+
+<!-- ⭐ TESTO SULL'IMMAGINE — puoi rimuovere <h1> se vuoi SOLO il logo -->
+<section class="banner" id="home">
+    <h1>Trova la tua auto con Fdauto2025!</h1>
+</section>
+
+<section class="container" id="auto">
+    <h2>Auto in vendita</h2>
+    <div class="search-box">
+        <input type="text" id="searchInput" placeholder="Cerca per marca o modello...">
+    </div>
+    <div class="auto-grid" id="autoGrid"></div>
+</section>
+
+<section class="container" id="chi-siamo">
+    <h2>Chi siamo</h2>
+    <p>FDauto2025 è un'azienda specializzata nella vendita di auto nuove e usate. La nostra mission è offrire ai clienti auto di qualità a prezzi competitivi, con un servizio affidabile e trasparente.</p>
+</section>
+
+<section class="container" id="contatti">
+    <h2>Contatti</h2>
+    <p>Indirizzo: Via Pola n.31, Portico di Caserta, 81050</p>
+    <p>Email: fdauto2025@gmail.com</p>
+
+    <form id="contactForm">
+        <input type="text" placeholder="Nome" required>
+        <input type="email" placeholder="Email" required>
+        <textarea placeholder="Messaggio" rows="5" required></textarea>
+        <button type="submit">Invia</button>
+    </form>
+</section>
+
+<section class="container admin-panel" id="admin">
+    <h2>Pannello Admin</h2>
+    <form id="autoForm">
+        <input type="hidden" id="autoIndex">
+        <input type="text" id="marca" placeholder="Marca" required>
+        <input type="text" id="modello" placeholder="Modello" required>
+        <input type="number" id="anno" placeholder="Anno" required>
+        <input type="number" id="km" placeholder="Chilometraggio" required>
+        <input type="number" id="prezzo" placeholder="Prezzo" required>
+        <input type="text" id="img" placeholder="URL immagine" required>
+        <button type="submit">Salva Auto</button>
+    </form>
+</section>
+
+<footer>
+    © 2025 Fdauto2025 - Via Pola n.31, 81050
+</footer>
+
+<script>
+let autoData = [];
+
+function loadData() {
+    const saved = localStorage.getItem("autoData");
+    if (saved) {
+        autoData = JSON.parse(saved);
+    } else {
+        autoData = [
+            { marca: "Fiat", modello: "500", anno: 2020, km: 15000, prezzo: 12500, img: "https://images.unsplash.com/photo-1600185361997-13e19e0c1bb5?auto=format&fit=crop&w=800&q=80" },
+            { marca: "Volkswagen", modello: "Golf", anno: 2019, km: 25000, prezzo: 18000, img: "https://images.unsplash.com/photo-1571607386500-0f918c1e48f3?auto=format&fit=crop&w=800&q=80" },
+            { marca: "BMW", modello: "X1", anno: 2021, km: 10000, prezzo: 32000, img: "https://images.unsplash.com/photo-1592194996308-7b43878e84a6?auto=format&fit=crop&w=800&q=80" }
+        ];
+    }
+}
+
+function saveData() {
+    localStorage.setItem("autoData", JSON.stringify(autoData));
+}
+
+const autoGrid = document.getElementById("autoGrid");
+const searchInput = document.getElementById("searchInput");
+const autoForm = document.getElementById("autoForm");
+const marcaInput = document.getElementById("marca");
+const modelloInput = document.getElementById("modello");
+const annoInput = document.getElementById("anno");
+const kmInput = document.getElementById("km");
+const prezzoInput = document.getElementById("prezzo");
+const imgInput = document.getElementById("img");
+const autoIndexInput = document.getElementById("autoIndex");
+
+function renderAuto(filter = "") {
+    autoGrid.innerHTML = "";
+    const filtered = autoData.filter(auto =>
+        `${auto.marca} ${auto.modello}`.toLowerCase().includes(filter.toLowerCase())
+    );
+
+    if (filtered.length === 0) {
+        autoGrid.innerHTML = "<p style='text-align:center;'>Nessuna auto trovata.</p>";
+        return;
+    }
+
+    filtered.forEach((auto, index) => {
+        const card = document.createElement("div");
+        card.className = "auto-card";
+        card.innerHTML = `
+            <img src="${auto.img}" alt="${auto.marca} ${auto.modello}">
+            <div class="info">
+                <h3>${auto.marca} ${auto.modello}</h3>
+                <p>Anno: ${auto.anno}</p>
+                <p>Chilometraggio: ${auto.km.toLocaleString()} km</p>
+                <p>Prezzo: €${auto.prezzo.toLocaleString()}</p>
+                <button onclick="richiediInfo(${index})">Richiedi info</button>
+                <button class="edit" onclick="editAuto(${index})">Modifica</button>
+                <button class="delete" onclick="deleteAuto(${index})">Elimina</button>
+            </div>
+        `;
+        autoGrid.appendChild(card);
+    });
+}
+
+function richiediInfo(index) {
+    const auto = autoData[index];
+    alert(`Hai richiesto informazioni per:\n${auto.marca} ${auto.modello}\nPrezzo: €${auto.prezzo.toLocaleString()}`);
+}
+
+function editAuto(index) {
+    const auto = autoData[index];
+    marcaInput.value = auto.marca;
+    modelloInput.value = auto.modello;
+    annoInput.value = auto.anno;
+    kmInput.value = auto.km;
+    prezzoInput.value = auto.prezzo;
+    imgInput.value = auto.img;
+    autoIndexInput.value = index;
+}
+
+function deleteAuto(index) {
+    if (confirm("Sei sicuro di voler eliminare questa auto?")) {
+        autoData.splice(index, 1);
+        saveData();
+        renderAuto(searchInput.value);
+    }
+}
+
+autoForm.addEventListener("submit", function(e) {
+    e.preventDefault();
+    const auto = {
+        marca: marcaInput.value,
+        modello: modelloInput.value,
+        anno: parseInt(annoInput.value),
+        km: parseInt(kmInput.value),
+        prezzo: parseInt(prezzoInput.value),
+        img: imgInput.value
+    };
+    const index = autoIndexInput.value;
+    if (index === "") {
+        autoData.push(auto);
+    } else {
+        autoData[index] = auto;
+        autoIndexInput.value = "";
+    }
+    autoForm.reset();
+    saveData();
+    renderAuto(searchInput.value);
+});
+
+document.getElementById("contactForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    alert("Messaggio inviato! Ti risponderemo al più presto.");
+    this.reset();
+});
+
+searchInput.addEventListener("input", () => {
+    renderAuto(searchInput.value);
+});
+
+window.onload = function() {
+    loadData();
+    renderAuto();
+};
+</script>
+
+</body>
+</html>
