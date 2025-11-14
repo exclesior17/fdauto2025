@@ -4,13 +4,46 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Fdauto2025 - Vendita Auto</title>
+
 <style>
 body { font-family: Arial, sans-serif; margin: 0; padding: 0; color: #333; background-color: #fafafa; }
 header { background-color: #1a73e8; color: white; padding: 20px 0; text-align: center; }
 nav { display: flex; justify-content: center; gap: 30px; margin-bottom: 10px; flex-wrap: wrap; }
 nav a { color: white; text-decoration: none; font-weight: bold; }
 nav a:hover { text-decoration: underline; }
-.banner { background-image: url('<https://i.ibb.co/PGgyzdLs/Immagine-Whats-App-2025-11-13-ore-18-27-18-52caec1e.jpg'); background-size: cover; background-position: center; height: 100vh; display: flex; justify-content: center; align-items: center; color: white; font-size: 2em; text-shadow: 2px 2px 5px rgba(0,0,0,0.7); text-align: center; padding: 20px; }
+
+/* ⭐ BANNER CON LOGO + OVERLAY SCURO */
+.banner {
+    position: relative;
+    background-image: url('https://i.ibb.co/PGgyzdLs/Immagine-Whats-App-2025-11-13-ore-18-27-18-52caec1e.jpg');
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 2.5em;
+    text-align: center;
+    padding: 20px;
+}
+
+/* ⭐ Overlay scuro sopra l’immagine (per leggibilità) */
+.banner::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.45);
+}
+
+/* ⭐ Il testo sta sopra all’overlay */
+.banner h1 {
+    position: relative;
+    z-index: 2;
+    text-shadow: 2px 2px 6px rgba(0,0,0,0.8);
+}
+
 .container { max-width: 1200px; margin: 20px auto; padding: 0 20px; }
 h2 { text-align: center; margin-bottom: 20px; }
 .auto-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
@@ -29,11 +62,11 @@ form button { background-color: #1a73e8; color: white; border: none; padding: 10
 form button:hover { background-color: #155ab6; }
 footer { background-color: #f1f1f1; padding: 20px 0; text-align: center; margin-top: 40px; }
 .admin-panel { background-color: #f9f9f9; padding: 20px; margin: 20px 0; border-radius: 8px; }
-.admin-panel h2 { margin-top: 0; }
 .search-box { text-align: center; margin-bottom: 20px; }
 .search-box input { width: 80%; max-width: 400px; padding: 10px; border-radius: 8px; border: 1px solid #bbb; font-size: 1em; }
 </style>
 </head>
+
 <body>
 
 <header>
@@ -47,8 +80,9 @@ footer { background-color: #f1f1f1; padding: 20px 0; text-align: center; margin-
     </nav>
 </header>
 
+<!-- ⭐ TESTO SULL'IMMAGINE — puoi rimuovere <h1> se vuoi SOLO il logo -->
 <section class="banner" id="home">
-    Trova la tua auto con Fdauto2025!
+    <h1>Trova la tua auto con Fdauto2025!</h1>
 </section>
 
 <section class="container" id="auto">
@@ -67,8 +101,8 @@ footer { background-color: #f1f1f1; padding: 20px 0; text-align: center; margin-
 <section class="container" id="contatti">
     <h2>Contatti</h2>
     <p>Indirizzo: Via Pola n.31, Portico di Caserta, 81050</p>
-    <p>Telefono: </p>
     <p>Email: fdauto2025@gmail.com</p>
+
     <form id="contactForm">
         <input type="text" placeholder="Nome" required>
         <input type="email" placeholder="Email" required>
@@ -158,68 +192,8 @@ function renderAuto(filter = "") {
 
 function richiediInfo(index) {
     const auto = autoData[index];
-    alert(`Hai richiesto informazioni per:\n${auto.marca} ${auto.modello}\nPrezzo: €${auto.prezzo.toLocaleString()}`);
-}
+    alert(`Hai richiesto informazioni per:\n${auto.marca} ${auto.mode
 
-function editAuto(index) {
-    const auto = autoData[index];
-    marcaInput.value = auto.marca;
-    modelloInput.value = auto.modello;
-    annoInput.value = auto.anno;
-    kmInput.value = auto.km;
-    prezzoInput.value = auto.prezzo;
-    imgInput.value = auto.img;
-    autoIndexInput.value = index;
-}
-
-function deleteAuto(index) {
-    if (confirm("Sei sicuro di voler eliminare questa auto?")) {
-        autoData.splice(index, 1);
-        saveData();
-        renderAuto(searchInput.value);
-    }
-}
-
-autoForm.addEventListener("submit", function(e) {
-    e.preventDefault();
-    const auto = {
-        marca: marcaInput.value,
-        modello: modelloInput.value,
-        anno: parseInt(annoInput.value),
-        km: parseInt(kmInput.value),
-        prezzo: parseInt(prezzoInput.value),
-        img: imgInput.value
-    };
-    const index = autoIndexInput.value;
-    if (index === "") {
-        autoData.push(auto);
-    } else {
-        autoData[index] = auto;
-        autoIndexInput.value = "";
-    }
-    autoForm.reset();
-    saveData();
-    renderAuto(searchInput.value);
-});
-
-document.getElementById("contactForm").addEventListener("submit", function(e) {
-    e.preventDefault();
-    alert("Messaggio inviato! Ti risponderemo al più presto.");
-    this.reset();
-});
-
-searchInput.addEventListener("input", () => {
-    renderAuto(searchInput.value);
-});
-
-window.onload = function() {
-    loadData();
-    renderAuto();
-};
-</script>
-
-</body>
-</html>
 
 
 
